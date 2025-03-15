@@ -1,0 +1,14 @@
+|-- .gitignore
+|-- .npmignore
+|-- eslint.config.mjs
+|-- package-lock.json
+|-- package.json
+|-- src
+    |-- api.ts
+    |-- cookie.ts
+    |-- index.ts
+    |-- tracking.ts
+    |-- types.ts
+    |-- web-tracking.ts
+|-- tsconfig.json
+|-- tsup.config.ts

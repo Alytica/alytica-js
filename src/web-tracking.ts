@@ -12,12 +12,10 @@ function toCamelCase(str: string): string {
 export class WebTrackingClient extends TrackingClient {
   protected override options: WebTrackingClientConfig; // Change private to protected to match base class
   private lastPath: string = "";
-  private lastHiddenTime: number | null = null;
   private debounceTimer: number | undefined;
 
   constructor(options: WebTrackingClientConfig) {
     super({
-      // Remove sdk and sdkVersion as they don't exist in TrackingClientConfig
       clientId: options.clientId,
       clientSecret: options.clientSecret,
       debug: options.debug,
@@ -56,7 +54,9 @@ export class WebTrackingClient extends TrackingClient {
       if (this.options.trackAttributes) {
         this.trackAttributes();
       }
-      this.setupTabCloseHandling();
+      if (this.options.trackSessionEnds) {
+        this.setupTabCloseHandling();
+      }
     }
   }
 

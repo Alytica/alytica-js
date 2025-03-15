@@ -1,6 +1,6 @@
 {
-  "name": "alytica-js",
-  "version": "0.0.1",
+  "name": "alytica-js-beta",
+  "version": "0.0.1-beta",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
