@@ -1,9 +1,21 @@
 {
   "name": "alytica-js-beta",
   "version": "0.0.1-beta",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js",
+      "types": "./dist/react/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "prepare": "husky",
@@ -20,6 +32,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
     "eslint": "^9.22.0",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
@@ -29,5 +42,9 @@
   },
   "dependencies": {
     "web-vitals": "^4.2.4"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

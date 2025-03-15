@@ -1,7 +1,8 @@
 import { WebTrackingClient } from "./web-tracking";
 import { TrackingClient } from "./tracking";
 import { WebTrackingClientConfig } from "./types";
-
+import * as ReactComponents from "./react";
+export { ReactComponents as React };
 /**
  * Alytica main class - provides web analytics tracking functionality
  */

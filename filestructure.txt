@@ -9,6 +9,13 @@
     |-- api.ts
     |-- cookie.ts
     |-- index.ts
+    |-- react
+        |-- context
+            |-- AlyticaContext.tsx
+            |-- AlyticaProvider.tsx
+        |-- hooks
+            |-- useAlytica.tsx
+        |-- index.ts
     |-- tracking.ts
     |-- types.ts
     |-- web-tracking.ts
