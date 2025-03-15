@@ -1,4 +1,6 @@
 |-- .gitignore
+|-- .husky
+    |-- pre-commit
 |-- .npmignore
 |-- eslint.config.mjs
 |-- package-lock.json
