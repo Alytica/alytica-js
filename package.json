@@ -1,6 +1,6 @@
 {
   "name": "alytica-js-beta",
-  "version": "0.0.1-beta",
+  "version": "0.0.3-beta",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -44,7 +44,7 @@
     "web-vitals": "^4.2.4"
   },
   "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   }
 }

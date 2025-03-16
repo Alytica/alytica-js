@@ -1,6 +1,24 @@
 |-- .gitignore
 |-- .husky
     |-- pre-commit
+    |-- _
+        |-- .gitignore
+        |-- applypatch-msg
+        |-- commit-msg
+        |-- h
+        |-- husky.sh
+        |-- post-applypatch
+        |-- post-checkout
+        |-- post-commit
+        |-- post-merge
+        |-- post-rewrite
+        |-- pre-applypatch
+        |-- pre-auto-gc
+        |-- pre-commit
+        |-- pre-merge-commit
+        |-- pre-push
+        |-- pre-rebase
+        |-- prepare-commit-msg
 |-- .npmignore
 |-- eslint.config.mjs
 |-- package-lock.json
