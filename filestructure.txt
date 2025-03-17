@@ -23,6 +23,7 @@
 |-- eslint.config.mjs
 |-- package-lock.json
 |-- package.json
+|-- README.md
 |-- src
     |-- api.ts
     |-- cookie.ts
