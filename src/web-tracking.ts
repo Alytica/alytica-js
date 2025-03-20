@@ -1,5 +1,4 @@
 import { onCLS, onFCP, onINP, onLCP } from "web-vitals";
-import { cookieManager } from "./cookie";
 import { TrackingClient } from "./tracking";
 import { WebTrackingClientConfig } from "./types";
 
@@ -53,9 +52,6 @@ export class WebTrackingClient extends TrackingClient {
       }
       if (this.options.trackAttributes) {
         this.trackAttributes();
-      }
-      if (this.options.trackSessionEnds) {
-        this.setupTabCloseHandling();
       }
     }
   }
@@ -184,8 +180,8 @@ export class WebTrackingClient extends TrackingClient {
       const trackElement = button?.getAttribute("data-track")
         ? button
         : link?.getAttribute("data-track")
-        ? link
-        : null;
+          ? link
+          : null;
 
       if (trackElement) {
         const properties: Record<string, any> = {};
@@ -202,77 +198,6 @@ export class WebTrackingClient extends TrackingClient {
           super.track(eventName, properties);
         }
       }
-    });
-  }
-
-  setupTabCloseHandling() {
-    let isNavigatingAway = false;
-
-    // Detect refresh
-    window.addEventListener("beforeunload", () => {
-      if (!isNavigatingAway) {
-        this.sendSessionEndEvent();
-      }
-    });
-
-    // Listen for navigation within the site
-    window.addEventListener("popstate", () => {
-      isNavigatingAway = true;
-    });
-
-    // Listen for link clicks within the site
-    const links = document.querySelectorAll("a");
-    links.forEach((link) => {
-      link.addEventListener("click", () => {
-        isNavigatingAway = true;
-      });
-    });
-  }
-
-  sendSessionEndEvent() {
-    const alyticaCookie = cookieManager.get(`alytica_${this.options.clientId}`);
-    if (alyticaCookie && alyticaCookie.$session) {
-      const session = alyticaCookie.$session;
-
-      if (session.$eventCount > 0) {
-        const eventData = {
-          type: "track",
-          payload: {
-            name: "$session_end",
-            properties: {
-              $distinctId: alyticaCookie.$distinctId,
-              $sessionId: session.$sessionId,
-              $bounce: session.$eventCount <= 1,
-              $duration: Date.now() - session.$startTimestamp,
-              $path: session.$lastPath,
-              $isIdentified: alyticaCookie.$isIdentified,
-              $initialUserProperties: alyticaCookie.$initialUserProperties,
-              ...(this.global || {}),
-            },
-          },
-        };
-
-        const url = `${this.api.baseUrl}/api/track`;
-
-        this.fallbackFetch(url, eventData);
-      }
-    }
-  }
-
-  private fallbackFetch(url: string, data: any): void {
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "alytica-client-id": this.options.clientId,
-        ...(this.options.clientSecret
-          ? { "alytica-client-secret": this.options.clientSecret }
-          : {}),
-      },
-      body: JSON.stringify(data),
-      keepalive: true,
-    }).catch((error) => {
-      console.error("Error sending session end event:", error);
     });
   }
 

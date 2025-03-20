@@ -44,5 +44,4 @@ export interface WebTrackingClientConfig extends TrackingClientConfig {
   trackAttributes?: boolean;
   trackHashChanges?: boolean;
   trackWebVitals?: boolean;
-  trackSessionEnds?: boolean;
 }
