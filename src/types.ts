@@ -32,6 +32,7 @@ export interface ApiClientConfig {
 export interface TrackingClientConfig {
   clientId: string;
   clientSecret?: string;
+  api_host: string;
   debug?: boolean;
   disabled?: boolean;
   waitForProfile?: boolean;

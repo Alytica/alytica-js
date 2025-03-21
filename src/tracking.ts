@@ -44,7 +44,7 @@ export class TrackingClient implements ITrackingClient {
     }
 
     this.api = new ApiClient({
-      baseUrl: "http://localhost:3001",
+      baseUrl: this.options.api_host || "http://localhost:3004",
       defaultHeaders: headers,
     });
 

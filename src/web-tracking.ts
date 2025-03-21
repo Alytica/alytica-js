@@ -19,6 +19,7 @@ export class WebTrackingClient extends TrackingClient {
       clientSecret: options.clientSecret,
       debug: options.debug,
       disabled: options.disabled,
+      api_host: options.api_host,
       waitForProfile: options.waitForProfile,
       processProfiles: options.processProfiles,
     });
