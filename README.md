@@ -18,7 +18,7 @@ Alytica JS SDK is a JavaScript library for web analytics tracking. It provides f
 Install the package using npm:
 
 ```sh
-npm install alytica-js-beta
+npm install alytica-js
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ npm install alytica-js-beta
 ### Basic Usage
 
 ```ts
-import { Alytica } from "alytica-js-beta";
+import { Alytica } from "alytica-js";
 
 const alytica = new Alytica({
   clientId: "your-client-id",
@@ -62,7 +62,7 @@ Wrap your application with `AlyticaProvider` to provide the Alytica instance to 
 
 ```tsx
 import React from "react";
-import { AlyticaProvider } from "alytica-js-beta/react";
+import { AlyticaProvider } from "alytica-js/react";
 
 const options = {
   clientId: "your-client-id",
@@ -92,7 +92,7 @@ Use the `useAlytica` hook to access the Alytica instance in your components.
 
 ```tsx
 import React from "react";
-import { useAlytica } from "alytica-js-beta/react";
+import { useAlytica } from "alytica-js/react";
 
 function MyComponent() {
   const alytica = useAlytica();
