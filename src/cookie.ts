@@ -4,7 +4,10 @@ export const cookieManager = {
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = `expires=${date.toUTCString()}`;
     const encodedValue = encodeURIComponent(JSON.stringify(value));
-    const cookieString = `${name}=${encodedValue};${expires};path=/;SameSite=Lax`;
+    
+    // Get the main domain by removing subdomain
+    const domain = window.location.hostname.split('.').slice(-2).join('.');
+    const cookieString = `${name}=${encodedValue};${expires};path=/;domain=.${domain};SameSite=Lax`;
 
     if (cookieString.length > 4093 * 0.9) {
       console.warn(
