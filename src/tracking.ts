@@ -44,7 +44,7 @@ export class TrackingClient implements ITrackingClient {
     }
 
     this.api = new ApiClient({
-      baseUrl: this.options.api_host || "http://localhost:3004",
+      baseUrl: this.options.api_host || "https://api.alytica.tech",
       defaultHeaders: headers,
     });
 
@@ -83,7 +83,6 @@ export class TrackingClient implements ITrackingClient {
           `alytica_${this.options.clientId}`,
           this.alyticaCookie
         );
-        this.needsSessionStart = true;
       } else {
         this.distinctId = alyticaCookie.$distinctId;
         this.session = alyticaCookie.$session;
@@ -109,7 +108,6 @@ export class TrackingClient implements ITrackingClient {
             `alytica_${this.options.clientId}`,
             this.alyticaCookie
           );
-          this.needsSessionStart = true;
         } else {
           this.alyticaCookie = {
             $distinctId: this.distinctId,
@@ -142,11 +140,6 @@ export class TrackingClient implements ITrackingClient {
           "         /____/           ",
         "color: orange;"
       );
-    }
-
-    if (this.needsSessionStart && !this.isServer()) {
-      this.track("$session_start", { $path: window.location.href });
-      this.needsSessionStart = false;
     }
   }
 
@@ -184,12 +177,7 @@ export class TrackingClient implements ITrackingClient {
       ) as AlyticaCookie) || this.alyticaCookie;
     const currentSession = this.alyticaCookie.$session;
 
-    let eventCount: number;
-    if (eventName === "$session_end" || eventName === "$session_start") {
-      eventCount = currentSession.$eventCount;
-    } else {
-      eventCount = currentSession.$eventCount + 1;
-    }
+    const eventCount = currentSession.$eventCount + 1;
 
     this.alyticaCookie = {
       $distinctId: this.alyticaCookie.$distinctId || this.distinctId,
