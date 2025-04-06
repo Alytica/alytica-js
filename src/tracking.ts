@@ -126,10 +126,18 @@ export class TrackingClient implements ITrackingClient {
   }
 
   protected isServer(): boolean {
-    return typeof document === "undefined";
+    return typeof window === "undefined";
+  }
+
+  protected isTrackingDisabled(): boolean {
+    if (this.isServer()) return false;
+    return localStorage.getItem('alytica_disabled') === 'true';
   }
 
   init(): void {
+    if (this.isTrackingDisabled()) {
+      return;
+    }
     if (this.options.debug) {
       console.log(
         "%c   ___    __      __  _           \n" +
@@ -171,6 +179,9 @@ export class TrackingClient implements ITrackingClient {
     eventName: string,
     properties?: Record<string, any>
   ): Promise<any> {
+    if (this.isTrackingDisabled()) {
+      return Promise.resolve();
+    }
     this.alyticaCookie =
       (cookieManager.get(
         `alytica_${this.options.clientId}`
@@ -215,6 +226,9 @@ export class TrackingClient implements ITrackingClient {
     userId: string,
     properties?: Record<string, any>
   ): Promise<any> {
+    if (this.isTrackingDisabled()) {
+      return Promise.resolve();
+    }
     if (userId) {
       if (this.distinctId === userId) {
         return;
@@ -263,6 +277,9 @@ export class TrackingClient implements ITrackingClient {
   }
 
   async alias(userId: string, aliasId: string): Promise<any> {
+    if (this.isTrackingDisabled()) {
+      return Promise.resolve();
+    }
     if (userId) {
       if (aliasId === userId) {
         return;
