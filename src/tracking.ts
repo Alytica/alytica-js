@@ -153,10 +153,6 @@ export class TrackingClient implements ITrackingClient {
         "color: orange;"
       );
     }
-  }
-
-  ready(): void {
-    this.flush();
     if (this.needsSessionStart && !this.sessionStartSent && !this.isServer()) {
       this.sessionStartSent = true;
       this.track("$session_start", {
@@ -166,6 +162,10 @@ export class TrackingClient implements ITrackingClient {
       });
       this.needsSessionStart = false;
     }
+  }
+
+  ready(): void {
+    this.flush();
   }
 
   async send(event: any): Promise<any> {
