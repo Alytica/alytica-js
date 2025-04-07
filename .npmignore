@@ -3,4 +3,8 @@ node_modules
 eslint.config.mjs
 tsconfig.json
 tsup.config.ts
+filestructure.txt
 .env
+README.md
+LICENSE.md
+.husky
