@@ -35,7 +35,6 @@ export interface TrackingClientConfig {
   api_host: string;
   debug?: boolean;
   disabled?: boolean;
-  waitForProfile?: boolean;
   processProfiles?: boolean;
 }
 
