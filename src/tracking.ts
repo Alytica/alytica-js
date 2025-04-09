@@ -21,7 +21,8 @@ export class TrackingClient implements ITrackingClient {
   protected queue: any[];
   protected isIdentified: boolean;
   protected global: Record<string, any>;
-
+  protected needsSessionStart: boolean;
+  protected sessionStartSent: boolean;
   protected api: ApiClient;
   protected distinctId!: string;
   protected sessionId!: string;
@@ -33,7 +34,8 @@ export class TrackingClient implements ITrackingClient {
     this.queue = [];
     this.isIdentified = false;
     this.global = {};
-
+    this.needsSessionStart = false;
+    this.sessionStartSent = false;
     const headers: Record<string, string> = {
       "alytica-client-id": config.clientId,
     };
@@ -82,6 +84,7 @@ export class TrackingClient implements ITrackingClient {
           `alytica_${this.options.clientId}`,
           this.alyticaCookie
         );
+        this.needsSessionStart = true;
       } else {
         this.distinctId = alyticaCookie.$distinctId;
         this.session = alyticaCookie.$session;
@@ -107,6 +110,7 @@ export class TrackingClient implements ITrackingClient {
             `alytica_${this.options.clientId}`,
             this.alyticaCookie
           );
+          this.needsSessionStart = true;
         } else {
           this.alyticaCookie = {
             $distinctId: this.distinctId,
@@ -119,6 +123,7 @@ export class TrackingClient implements ITrackingClient {
             `alytica_${this.options.clientId}`,
             this.alyticaCookie
           );
+          this.needsSessionStart = false;
         }
       }
     }
@@ -147,6 +152,15 @@ export class TrackingClient implements ITrackingClient {
           "         /____/           ",
         "color: orange;"
       );
+    }
+    if (this.needsSessionStart && !this.sessionStartSent && !this.isServer()) {
+      this.sessionStartSent = true;
+      this.track("$session_start", {
+        $sessionId: this.sessionId,
+        $startTimestamp: this.alyticaCookie.$session.$startTimestamp,
+        $referrer: document.referrer === "" ? "$direct" : document.referrer,
+      });
+      this.needsSessionStart = false;
     }
   }
 
@@ -322,6 +336,7 @@ export class TrackingClient implements ITrackingClient {
     };
 
     cookieManager.set(`alytica_${this.options.clientId}`, this.alyticaCookie);
+    this.needsSessionStart = true;
 
     return this.distinctId;
   }
