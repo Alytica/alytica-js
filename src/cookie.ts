@@ -4,19 +4,28 @@ export const cookieManager = {
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = `expires=${date.toUTCString()}`;
     const encodedValue = encodeURIComponent(JSON.stringify(value));
-    
-    // Get the main domain by removing subdomain
-    const domain = window.location.hostname.split('.').slice(-2).join('.');
-    const cookieString = `${name}=${encodedValue};${expires};path=/;domain=.${domain};SameSite=Lax`;
 
-    if (cookieString.length > 4093 * 0.9) {
-      console.warn(
-        "cookieStore warning: large cookie, len=" + cookieString.length
-      );
-      return;
+    // Extract the main domain
+    const domainParts = window.location.hostname.split(".");
+    // Ensure there are at least two parts (e.g., 'alytica.tech')
+    if (domainParts.length >= 2) {
+      const domain = "." + domainParts.slice(-2).join("."); // Add the leading dot
+      const cookieString = `${name}=${encodedValue};${expires};path=/;domain=${domain};SameSite=Lax`;
+
+      if (cookieString.length > 4093 * 0.9) {
+        console.warn(
+          "cookieStore warning: large cookie, len=" + cookieString.length
+        );
+        return;
+      }
+
+      document.cookie = cookieString;
+    } else {
+      console.warn("Could not determine the main domain.");
+      // Optionally, set the cookie for the current hostname only
+      const cookieString = `${name}=${encodedValue};${expires};path=/;domain=${window.location.hostname};SameSite=Lax`;
+      document.cookie = cookieString;
     }
-
-    document.cookie = cookieString;
   },
 
   get(name: string): any | null {
