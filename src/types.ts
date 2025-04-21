@@ -3,6 +3,7 @@ export interface AlyticaCookie {
   $session: Session;
   $initialUserProperties: InitialUserProperties;
   $isIdentified: boolean;
+  $groups: Record<string, string>;
 }
 
 export interface Session {

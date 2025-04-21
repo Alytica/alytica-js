@@ -49,6 +49,21 @@ export class Alytica {
   }
 
   /**
+   * Identify a group
+   * @param groupType The Type of the group
+   * @param groupValue The Name of the group
+   * @param properties Optional properties to include with the Group
+   * @returns Promise resolving to the tracking response
+   */
+  group(
+    groupType: string,
+    groupValue: string,
+    properties?: Record<string, any>
+  ): Promise<any> {
+    return this.client.group(groupType, groupValue, properties);
+  }
+
+  /**
    * Get the current anonymous or known user ID
    * @returns The distinct ID of the current user
    */
